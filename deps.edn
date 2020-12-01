@@ -1,4 +1,6 @@
-{:aliases
+{:deps
+ {org.clojure/math.combinatorics {:mvn/version "0.1.6"}}
+ :aliases
  {:test
   {:extra-deps
    {com.cognitect/test-runner
