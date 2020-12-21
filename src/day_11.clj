@@ -30,7 +30,7 @@
 
 (defn step [nearby tolerance seats]
   (into {}
-    (map
+    (pmap
       (fn [[seat state]]
         (let [c (count (filter #{:occupied} (nearby seats seat)))]
           [seat (case state

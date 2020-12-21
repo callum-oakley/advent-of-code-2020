@@ -17,10 +17,10 @@
     :else x))
 
 (defn part-1 [homework]
-  (apply + (map #(math {'+ 0 '* 0} (read-string (str "(" % ")"))) homework)))
+  (apply + (pmap #(math {'+ 0 '* 0} (read-string (str "(" % ")"))) homework)))
 
 (defn part-2 [homework]
-  (apply + (map #(math {'+ 1 '* 0} (read-string (str "(" % ")"))) homework)))
+  (apply + (pmap #(math {'+ 1 '* 0} (read-string (str "(" % ")"))) homework)))
 
 (deftest test-part-1
   (are [x y] (= (math {'+ 0 '* 0} x) y)
