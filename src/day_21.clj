@@ -16,13 +16,12 @@
 
 (defn identify-potentially-dangerous [foods]
   (->> foods
-    (map (fn [[ingredients allergens]]
-           (map (fn [allergen] {allergen ingredients}) allergens)))
-    (apply concat)
+    (mapcat (fn [[ingredients allergens]]
+              (map (fn [allergen] {allergen ingredients}) allergens)))
     (apply merge-with set/intersection)))
 
 (defn part-1 [foods]
-  (->> (apply concat (map first foods))
+  (->> (mapcat first foods)
     (remove (apply set/union (vals (identify-potentially-dangerous foods))))
     count))
 
