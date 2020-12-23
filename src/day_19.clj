@@ -15,10 +15,12 @@
 
 (defn build-re [rules max-depth n]
   (if (pos? max-depth)
-    (str \(
-      (apply str
-        (map #(if (int? %) (build-re rules (dec max-depth) %) %) (rules n)))
-      \))
+    (str/join
+      (map
+        #(if (int? %)
+           (str "(" (build-re rules (dec max-depth) %) ")")
+           %)
+        (rules n)))
     "x"))
 
 (defn part-1 [[rules messages]]
