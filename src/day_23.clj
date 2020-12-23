@@ -4,7 +4,8 @@
     [clojure.test :refer [deftest is]]))
 
 (defn initial-state [cups]
-  {:cups (into {(last cups) (first cups)} (map vec (partition 2 1 cups)))
+  {:cups (transient
+           (into {(last cups) (first cups)} (map vec (partition 2 1 cups))))
    :current (first cups)
    :maxcup (apply max cups)})
 
@@ -15,7 +16,7 @@
                       rest
                       (some #(when (not (#{a b c} %)) %)))
         e (cups destination)]
-    (assoc state :cups (assoc cups current d destination a c e) :current d)))
+    (assoc state :cups (assoc! cups current d destination a c e) :current d)))
 
 (defn game [n cups]
   (first (drop n (iterate move (initial-state cups)))))
