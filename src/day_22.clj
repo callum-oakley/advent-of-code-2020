@@ -7,7 +7,7 @@
   (map str/split-lines (str/split (slurp "data/input_22.txt") #"\n\n")))
 
 (defn parse [decks]
-  (map #(->> % rest (map read-string) vec) decks))
+  (map #(->> % rest (mapv read-string)) decks))
 
 (defn score [deck]
   (apply + (map-indexed (fn [i c] (* c (inc i))) (reverse deck))))

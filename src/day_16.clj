@@ -12,7 +12,7 @@
     [field #(or (<= a % b) (<= c % d))]))
 
 (defn parse-ticket [ticket]
-  (vec (map read-string (str/split ticket #","))))
+  (mapv read-string (str/split ticket #",")))
 
 (defn parse [[rules your-ticket nearby-tickets]]
   [(into {} (map parse-rule rules))

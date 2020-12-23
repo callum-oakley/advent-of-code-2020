@@ -11,7 +11,7 @@
     [(keyword op) (read-string arg)]))
 
 (defn parse [instructions]
-  (vec (map parse-instruction instructions)))
+  (mapv parse-instruction instructions))
 
 (defn run [instructions]
   (loop [i 0 acc 0 seen #{}]

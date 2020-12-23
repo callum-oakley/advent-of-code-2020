@@ -5,7 +5,7 @@
     [clojure.test :refer [deftest is]]))
 
 (def data
-  (vec (map read-string (str/split-lines (slurp "data/input_09.txt")))))
+  (mapv read-string (str/split-lines (slurp "data/input_09.txt"))))
 
 (defn part-1 [preamble-len numbers]
   (when (> (count numbers) preamble-len)
