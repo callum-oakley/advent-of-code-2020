@@ -100,7 +100,7 @@
     (->> (for [y (range limy) x (range limx)] [y x])
       (filter (fn [[y x]]
                 (every? (fn [[dy dx]]
-                          (#{\#} (get-in image [(+ y dy) (+ x dx)])))
+                          (= (get-in image [(+ y dy) (+ x dx)]) \#))
                   monster)))
       count)))
 

@@ -16,8 +16,7 @@
   (into {} (map parse-rule rules)))
 
 (defn eventually-contains? [rules current target]
-  (some
-    #(or (= % target) (eventually-contains? rules % target))
+  (apply (some-fn #{target} #(eventually-contains? rules % target))
     (keys (rules current))))
 
 (defn count-bags [rules bag]

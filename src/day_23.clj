@@ -17,7 +17,7 @@
   (let [a (next-cup current) b (next-cup a) c (next-cup b) d (next-cup c)
         destination (->> (iterate #(if (= % 1) maxcup (dec %)) current)
                       rest
-                      (some #(when (not (#{a b c} %)) %)))
+                      (some #(when-not (#{a b c} %) %)))
         e (next-cup destination)]
     (assoc state
       :next-cup (assoc! next-cup current d destination a c e)

@@ -20,7 +20,7 @@
    (map parse-ticket (rest nearby-tickets))])
 
 (defn valid? [rules ticket]
-  (every? (fn [val] (some #(% val) (vals rules))) ticket))
+  (every? (apply some-fn (vals rules)) ticket))
 
 (defn part-1 [[rules _ nearby-tickets]]
   (apply + (filter #(not (valid? rules [%])) (flatten nearby-tickets))))

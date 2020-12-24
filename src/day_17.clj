@@ -24,7 +24,7 @@
   (set
     (filter
       (fn [pos]
-        (let [c (count (filter #(grid %) (neighbors pos)))]
+        (let [c (count (filter grid (neighbors pos)))]
           (if (grid pos) (<= 2 c 3) (= c 3))))
       (distinct (mapcat neighbors grid)))))
 

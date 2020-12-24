@@ -40,7 +40,7 @@
   (count (filter valid-1? passports)))
 
 (defn part-2 [passports]
-  (count (filter #(and (valid-1? %) (valid-2? %)) passports)))
+  (count (filter (every-pred valid-1? valid-2?) passports)))
 
 (def sample
   (parse "ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
