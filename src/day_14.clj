@@ -1,8 +1,8 @@
 (ns day-14
   (:require
-    [clojure.math.combinatorics :as comb]
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.math.combinatorics :as comb]
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (str/split-lines (slurp "data/input_14.txt")))
@@ -10,17 +10,17 @@
 (defn parse-instruction [instruction]
   (let [[_ mask index value]
         (re-matches
-          #"(?:(?:mask = ([X01]{36}))|(?:mem\[(\d+)\] = (\d+)))"
-          instruction)]
+         #"(?:(?:mask = ([X01]{36}))|(?:mem\[(\d+)\] = (\d+)))"
+         instruction)]
     (if mask
       {:op :mask
        :or-mask (read-string (apply str "2r" (map {\0 \0 \1 \1 \X \0} mask)))
        :and-mask (read-string (apply str "2r" (map {\0 \0 \1 \1 \X \1} mask)))
        :xor-masks (->> (reverse mask)
-                    (map-indexed #({\X (bit-shift-left 1 %1)} %2))
-                    (keep identity)
-                    comb/subsets
-                    (map #(apply + %)))}
+                       (map-indexed #({\X (bit-shift-left 1 %1)} %2))
+                       (keep identity)
+                       comb/subsets
+                       (map #(apply + %)))}
       {:op :mem
        :index (read-string index)
        :value (read-string value)})))
@@ -32,8 +32,8 @@
   (case (:op instruction)
     :mask [mem (:or-mask instruction) (:and-mask instruction)]
     :mem [(assoc mem
-            (:index instruction)
-            (bit-and and-mask (bit-or or-mask (:value instruction))))
+                 (:index instruction)
+                 (bit-and and-mask (bit-or or-mask (:value instruction))))
           or-mask
           and-mask]))
 
@@ -41,11 +41,11 @@
   (case (:op instruction)
     :mask [mem (:or-mask instruction) (:xor-masks instruction)]
     :mem [(into mem
-            (map
-              (fn [xor-mask]
-                [(bit-xor xor-mask (bit-or or-mask (:index instruction)))
-                 (:value instruction)])
-              xor-masks))
+                (map
+                 (fn [xor-mask]
+                   [(bit-xor xor-mask (bit-or or-mask (:index instruction)))
+                    (:value instruction)])
+                 xor-masks))
           or-mask
           xor-masks]))
 

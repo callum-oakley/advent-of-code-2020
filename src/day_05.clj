@@ -1,8 +1,8 @@
 (ns day-05
   (:require
-    [clojure.string :as str]
-    [clojure.set :as set]
-    [clojure.test :refer [deftest is are]]))
+   [clojure.string :as str]
+   [clojure.set :as set]
+   [clojure.test :refer [deftest is are]]))
 
 (def data
   (str/split-lines (slurp "data/input_05.txt")))

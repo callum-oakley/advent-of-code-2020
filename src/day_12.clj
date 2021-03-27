@@ -1,7 +1,7 @@
 (ns day-12
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (str/split-lines (slurp "data/input_12.txt")))
@@ -17,8 +17,8 @@
 
 (defn turn [dir deg]
   (nth
-    (iterate (fn [[x y]] [(- y) x]) dir)
-    (/ (mod deg 360) 90)))
+   (iterate (fn [[x y]] [(- y) x]) dir)
+   (/ (mod deg 360) 90)))
 
 (defn step-1 [{:keys [pos dir]} [op arg]]
   (condp contains? op

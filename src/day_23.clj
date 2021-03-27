@@ -1,14 +1,14 @@
 (ns day-23
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (defn initial-state [cups]
   {:next-cup (->> (partition 2 1 cups)
-               (concat [[0 nil] [(last cups) (first cups)]])
-               (sort-by first)
-               (mapv second)
-               transient)
+                  (concat [[0 nil] [(last cups) (first cups)]])
+                  (sort-by first)
+                  (mapv second)
+                  transient)
    :current (first cups)
    :maxcup (apply max cups)})
 
@@ -16,12 +16,12 @@
   ;; ... current a b c d ... destination e ...
   (let [a (next-cup current) b (next-cup a) c (next-cup b) d (next-cup c)
         destination (->> (iterate #(if (= % 1) maxcup (dec %)) current)
-                      rest
-                      (some #(when-not (#{a b c} %) %)))
+                         rest
+                         (some #(when-not (#{a b c} %) %)))
         e (next-cup destination)]
     (assoc state
-      :next-cup (assoc! next-cup current d destination a c e)
-      :current d)))
+           :next-cup (assoc! next-cup current d destination a c e)
+           :current d)))
 
 (defn game [n cups]
   (:next-cup (first (drop n (iterate move (initial-state cups))))))

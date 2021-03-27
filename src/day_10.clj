@@ -1,7 +1,7 @@
 (ns day-10
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (map read-string (str/split-lines (slurp "data/input_10.txt"))))
@@ -9,10 +9,10 @@
 (defn part-1 [adapters]
   (let [device (+ (apply max adapters) 3)
         diffs (->> (conj adapters 0 device)
-                sort
-                (partition 2 1)
-                (map (fn [[a b]] (- b a)))
-                frequencies)]
+                   sort
+                   (partition 2 1)
+                   (map (fn [[a b]] (- b a)))
+                   frequencies)]
     (* (get diffs 1 0) (get diffs 3 0))))
 
 (defn part-2 [adapters]
@@ -21,11 +21,11 @@
         ;; routes to each of the possible previous adapters (it's like a messy
         ;; Pascal's triangle) so we can get the solution in one pass.
         routes (reduce
-                 (fn [r a]
-                   (assoc r a
-                     (apply + (map #(get r % 0) (range (- a 3) a)))))
-                 {0 1}
-                 (sort (conj adapters device)))]
+                (fn [r a]
+                  (assoc r a
+                         (apply + (map #(get r % 0) (range (- a 3) a)))))
+                {0 1}
+                (sort (conj adapters device)))]
     (get routes device)))
 
 (deftest test-part-1

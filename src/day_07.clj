@@ -1,7 +1,7 @@
 (ns day-07
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (str/split-lines (slurp "data/input_07.txt")))
@@ -9,15 +9,15 @@
 (defn parse-rule [rule]
   (let [[_ outer] (re-find #"(\w+ \w+) bags contain" rule)]
     {outer (->> (re-seq #"(\d+) (\w+ \w+) bag" rule)
-             (map (fn [[_ n c]] {c (read-string n)}))
-             (into {}))}))
+                (map (fn [[_ n c]] {c (read-string n)}))
+                (into {}))}))
 
 (defn parse [rules]
   (into {} (map parse-rule rules)))
 
 (defn eventually-contains? [rules current target]
   (apply (some-fn #{target} #(eventually-contains? rules % target))
-    (keys (rules current))))
+         (keys (rules current))))
 
 (defn count-bags [rules bag]
   (apply + (map (fn [[b n]] (* n (inc (count-bags rules b)))) (rules bag))))

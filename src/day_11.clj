@@ -1,7 +1,7 @@
 (ns day-11
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (str/split-lines (slurp "data/input_11.txt")))
@@ -24,20 +24,20 @@
 
 (defn visible [seats seat]
   (map
-    #(some #{:occupied :empty}
-       (take-while some? (map seats (ray seat %))))
-    directions))
+   #(some #{:occupied :empty}
+          (take-while some? (map seats (ray seat %))))
+   directions))
 
 (defn step [nearby tolerance seats]
   (into {}
-    (pmap
-      (fn [[seat state]]
-        (let [c (count (filter #{:occupied} (nearby seats seat)))]
-          [seat (case state
-                  :empty (if (zero? c) :occupied :empty)
-                  :occupied (if (>= c tolerance) :empty :occupied)
-                  state)]))
-      seats)))
+        (pmap
+         (fn [[seat state]]
+           (let [c (count (filter #{:occupied} (nearby seats seat)))]
+             [seat (case state
+                     :empty (if (zero? c) :occupied :empty)
+                     :occupied (if (>= c tolerance) :empty :occupied)
+                     state)]))
+         seats)))
 
 (defn simulate [nearby tolerance seats]
   (let [seats1 (step nearby tolerance seats)]

@@ -1,7 +1,7 @@
 (ns day-08
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (str/split-lines (slurp "data/input_08.txt")))
@@ -29,12 +29,12 @@
 
 (defn part-2 [instructions]
   (first
-    (keep-indexed
-      (fn [i [op]]
-        (when-let [op ({:jmp :nop :nop :jmp} op)]
-          (let [[res acc] (run (assoc-in instructions [i 0] op))]
-            (when (= res :ok) acc))))
-      instructions)))
+   (keep-indexed
+    (fn [i [op]]
+      (when-let [op ({:jmp :nop :nop :jmp} op)]
+        (let [[res acc] (run (assoc-in instructions [i 0] op))]
+          (when (= res :ok) acc))))
+    instructions)))
 
 (def sample
   ["nop +0" "acc +1" "jmp +4"

@@ -1,8 +1,8 @@
 (ns day-09
   (:require
-    [clojure.math.combinatorics :as comb]
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.math.combinatorics :as comb]
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (mapv read-string (str/split-lines (slurp "data/input_09.txt"))))

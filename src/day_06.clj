@@ -1,17 +1,17 @@
 (ns day-06
   (:require
-    [clojure.string :as str]
-    [clojure.set :as set]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.set :as set]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (str/split (slurp "data/input_06.txt") #"\n\n"))
 
 (defn process-group [combine group]
   (->> (str/split-lines group)
-    (map set)
-    (apply combine)
-    count))
+       (map set)
+       (apply combine)
+       count))
 
 (defn part-1 [groups]
   (apply + (map #(process-group set/union %) groups)))

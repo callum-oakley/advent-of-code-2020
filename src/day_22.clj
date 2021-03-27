@@ -1,7 +1,7 @@
 (ns day-22
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (map str/split-lines (str/split (slurp "data/input_22.txt") #"\n\n")))
@@ -31,7 +31,7 @@
                 d1* (subvec d1 1) d2* (subvec d2 1)
                 winner (if (and (<= c1 (count d1*)) (<= c2 (count d2*)))
                          (:winner
-                           (game-2 [(subvec d1* 0 c1) (subvec d2* 0 c2)] #{}))
+                          (game-2 [(subvec d1* 0 c1) (subvec d2* 0 c2)] #{}))
                          (if (> c1 c2) 1 2))
                 seen* (conj seen [d1 d2])]
             (case winner

@@ -1,7 +1,7 @@
 (ns day-02
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (defn parse [line]
   (let [[_ n m [c] pass] (re-find #"(\d+)-(\d+) (.): (.*)" line)]

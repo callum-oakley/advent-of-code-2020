@@ -1,8 +1,8 @@
 (ns day-21
   (:require
-    [clojure.string :as str]
-    [clojure.set :as set]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.set :as set]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (str/split-lines (slurp "data/input_21.txt")))
@@ -16,14 +16,14 @@
 
 (defn identify-potentially-dangerous [foods]
   (->> foods
-    (mapcat (fn [[ingredients allergens]]
-              (map (fn [allergen] {allergen ingredients}) allergens)))
-    (apply merge-with set/intersection)))
+       (mapcat (fn [[ingredients allergens]]
+                 (map (fn [allergen] {allergen ingredients}) allergens)))
+       (apply merge-with set/intersection)))
 
 (defn part-1 [foods]
   (->> (mapcat first foods)
-    (remove (apply set/union (vals (identify-potentially-dangerous foods))))
-    count))
+       (remove (apply set/union (vals (identify-potentially-dangerous foods))))
+       count))
 
 (defn map-vals [f m]
   (into {} (map (fn [[k v]] [k (f v)]) m)))
@@ -34,17 +34,17 @@
     (if-let [[allergen ingredients]
              (first (filter dangerous? potentially-dangerous))]
       (recur
-        (map-vals
-          #(disj % (first ingredients))
-          (dissoc potentially-dangerous allergen))
-        (assoc dangerous allergen (first ingredients)))
+       (map-vals
+        #(disj % (first ingredients))
+        (dissoc potentially-dangerous allergen))
+       (assoc dangerous allergen (first ingredients)))
       dangerous)))
 
 (defn part-2 [foods]
   (->> (solve (identify-potentially-dangerous foods) {})
-    (sort-by first)
-    (map second)
-    (str/join ",")))
+       (sort-by first)
+       (map second)
+       (str/join ",")))
 
 (def sample
   ["mxmxvkd kfcds sqjhc nhms (contains dairy, fish)"

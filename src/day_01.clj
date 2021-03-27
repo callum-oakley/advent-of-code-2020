@@ -1,17 +1,17 @@
 (ns day-01
   (:require
-    [clojure.math.combinatorics :as comb]
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.math.combinatorics :as comb]
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def expense-report
   (map read-string (str/split-lines (slurp "data/input_01.txt"))))
 
 (defn process-report [n report]
   (->> (comb/combinations report n)
-    (filter #(= (apply + %) 2020))
-    first
-    (apply *)))
+       (filter #(= (apply + %) 2020))
+       first
+       (apply *)))
 
 (defn part-1 [report]
   (process-report 2 report))

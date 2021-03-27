@@ -1,7 +1,7 @@
 (ns day-19
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (map str/split-lines (str/split (slurp "data/input_19.txt") #"\n\n")))
@@ -16,11 +16,11 @@
 (defn build-re [rules max-depth n]
   (if (pos? max-depth)
     (str/join
-      (map
-        #(if (int? %)
-           (str "(" (build-re rules (dec max-depth) %) ")")
-           %)
-        (rules n)))
+     (map
+      #(if (int? %)
+         (str "(" (build-re rules (dec max-depth) %) ")")
+         %)
+      (rules n)))
     "x"))
 
 (defn part-1 [[rules messages]]

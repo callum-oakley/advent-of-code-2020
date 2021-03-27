@@ -1,7 +1,7 @@
 (ns day-16
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (map str/split-lines (str/split (slurp "data/input_16.txt") #"\n\n")))
@@ -31,9 +31,9 @@
 ;; A map from field name to the set of valid columns for that field.
 (defn build-free [rules columns]
   (map-vals
-    (fn [rule]
-      (set (filter #(every? rule (nth columns %)) (range (count rules)))))
-    rules))
+   (fn [rule]
+     (set (filter #(every? rule (nth columns %)) (range (count rules)))))
+   rules))
 
 ;; When a field in free only has one valid column choice we can move it to
 ;; fixed, and remove that column from every remaining field in free. Doing this
@@ -42,8 +42,8 @@
   (let [fixed? (fn [[_ columns]] (= (count columns) 1))]
     (if-let [[field columns] (first (filter fixed? free))]
       (recur
-        (map-vals #(disj % (first columns)) (dissoc free field))
-        (assoc fixed field (first columns)))
+       (map-vals #(disj % (first columns)) (dissoc free field))
+       (assoc fixed field (first columns)))
       fixed)))
 
 (defn part-2* [[rules _ nearby-tickets]]
@@ -54,8 +54,8 @@
 (defn part-2 [[_ your-ticket _ :as args]]
   (let [solved (part-2* args)]
     (->> ["location" "station" "platform" "track" "date" "time"]
-      (map #(nth your-ticket (get solved (str "departure " %))))
-      (apply *))))
+         (map #(nth your-ticket (get solved (str "departure " %))))
+         (apply *))))
 
 (def sample-1
   [["class: 1-3 or 5-7"

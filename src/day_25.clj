@@ -1,7 +1,7 @@
 (ns day-25
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (map read-string (str/split-lines (slurp "data/input_25.txt"))))

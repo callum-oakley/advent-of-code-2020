@@ -1,6 +1,6 @@
 (ns day-15
   (:require
-    [clojure.test :refer [deftest is]]))
+   [clojure.test :refer [deftest is]]))
 
 ;; Van Eck's sequence https://youtu.be/etMJxB-igrc
 (defn turn [[prev i mem]]
@@ -10,16 +10,17 @@
 
 (defn game [seed n]
   (nth
-    (->> (iterate turn
-           [(last seed)
-            (dec (count seed))
-            (transient
-              (apply assoc (vec (repeat n nil))
-                (flatten (map-indexed (fn [i m] [m i]) (drop-last seed)))))])
-      rest
-      (map first)
-      (concat seed))
-    (dec n)))
+   (->> (iterate
+         turn
+         [(last seed)
+          (dec (count seed))
+          (transient
+           (apply assoc (vec (repeat n nil))
+                  (flatten (map-indexed (fn [i m] [m i]) (drop-last seed)))))])
+        rest
+        (map first)
+        (concat seed))
+   (dec n)))
 
 (def sample
   [0 3 6])

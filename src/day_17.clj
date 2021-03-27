@@ -1,7 +1,7 @@
 (ns day-17
   (:require
-    [clojure.string :as str]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (str/split-lines (slurp "data/input_17.txt")))
@@ -22,11 +22,11 @@
 
 (defn step [neighbors grid]
   (set
-    (filter
-      (fn [pos]
-        (let [c (count (filter grid (neighbors pos)))]
-          (if (grid pos) (<= 2 c 3) (= c 3))))
-      (distinct (mapcat neighbors grid)))))
+   (filter
+    (fn [pos]
+      (let [c (count (filter grid (neighbors pos)))]
+        (if (grid pos) (<= 2 c 3) (= c 3))))
+    (distinct (mapcat neighbors grid)))))
 
 (defn part-1 [grid]
   (count (first (drop 6 (iterate #(step neighbors-3 %) grid)))))

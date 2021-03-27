@@ -1,18 +1,16 @@
 (ns day-20
   (:require
-    [clojure.string :as str]
-    [clojure.set :as set]
-    [clojure.test :refer [deftest is]]))
+   [clojure.string :as str]
+   [clojure.set :as set]
+   [clojure.test :refer [deftest is]]))
 
 (def data
   (map str/split-lines (str/split (slurp "data/input_20.txt") #"\n\n")))
 
 (defn re-index [tile f]
-  (into []
-    (for [y (range (count tile))]
-      (into []
-        (for [x (range (count (first tile)))]
-          (get-in tile (f [y x])))))))
+  (vec (for [y (range (count tile))]
+         (vec (for [x (range (count (first tile)))]
+                (get-in tile (f [y x])))))))
 
 (defn rotations-and-reflections [t]
   (let [r #(re-index % (fn [[y x]] [(- (count t) x 1) y]))
@@ -22,8 +20,7 @@
 
 (defn parse-tile [[title & tile]]
   [(read-string (second (re-find #"(\d+)" title)))
-   (let [t (into [] (map #(into [] (seq %)) tile))]
-     (rotations-and-reflections t))])
+   (rotations-and-reflections (mapv vec tile))])
 
 (defn parse [tiles]
   (into {} (map parse-tile tiles)))
@@ -31,15 +28,15 @@
 (defn border [tile edge]
   (for [i (range 10)]
     (get-in tile
-      (case edge :north [0 i] :east [i 9] :south [9 i] :west [i 0]))))
+            (case edge :north [0 i] :east [i 9] :south [9 i] :west [i 0]))))
 
 (defn adjacent [blueprint]
   (set/difference
-    (apply set/union
-      (map
-        (fn [[y x]] #{[(inc y) x] [y (inc x)] [(dec y) x] [y (dec x)]})
-        blueprint))
-    blueprint))
+   (apply set/union
+          (map
+           (fn [[y x]] #{[(inc y) x] [y (inc x)] [(dec y) x] [y (dec x)]})
+           blueprint))
+   blueprint))
 
 (defn fits [tiles blueprint [y x] tile-id orientation]
   (let [tile  (get-in tiles [tile-id orientation])
@@ -48,14 +45,14 @@
         south (blueprint [(inc y) x])
         west  (blueprint [y (dec x)])]
     (and
-      (or (nil? north)
-        (= (border tile :north) (border (get-in tiles north) :south)))
-      (or (nil? east)
-        (= (border tile :east)  (border (get-in tiles east)  :west)))
-      (or (nil? south)
-        (= (border tile :south) (border (get-in tiles south) :north)))
-      (or (nil? west)
-        (= (border tile :west)  (border (get-in tiles west)  :east))))))
+     (or (nil? north)
+         (= (border tile :north) (border (get-in tiles north) :south)))
+     (or (nil? east)
+         (= (border tile :east)  (border (get-in tiles east)  :west)))
+     (or (nil? south)
+         (= (border tile :south) (border (get-in tiles south) :north)))
+     (or (nil? west)
+         (= (border tile :west)  (border (get-in tiles west)  :east))))))
 
 (defn assemble [tiles]
   (loop [blueprint {[0 0] [(first (keys tiles)) 0]}
@@ -68,8 +65,8 @@
                          :when (fits tiles blueprint pos tile-id orientation)]
                      [pos tile-id orientation]))]
         (recur
-          (assoc blueprint pos [tile-id orientation])
-          (disj remaining tile-id)))
+         (assoc blueprint pos [tile-id orientation])
+         (disj remaining tile-id)))
       blueprint)))
 
 (defn draw [tiles blueprint]
@@ -77,13 +74,11 @@
         xmin (apply min (map (fn [[_ x]] x) (keys blueprint)))
         ymax (apply max (map (fn [[y _]] y) (keys blueprint)))
         xmax (apply max (map (fn [[_ x]] x) (keys blueprint)))]
-    (into []
-      (for [y (range (* (- (inc ymax) ymin) 8))]
-        (into []
-          (for [x (range (* (- (inc xmax) xmin) 8))]
-            (let [tile (get-in tiles (blueprint [(+ ymin (quot y 8))
-                                                 (+ xmin (quot x 8))]))]
-              (get-in tile [(+ 1 (rem y 8)) (+ 1 (rem x 8))]))))))))
+    (vec (for [y (range (* (- (inc ymax) ymin) 8))]
+           (vec (for [x (range (* (- (inc xmax) xmin) 8))]
+                  (let [tile (get-in tiles (blueprint [(+ ymin (quot y 8))
+                                                       (+ xmin (quot x 8))]))]
+                    (get-in tile [(+ 1 (rem y 8)) (+ 1 (rem x 8))]))))))))
 
 ;;  01234567890123456789
 ;; 0                  #
@@ -98,11 +93,11 @@
   (let [limy (- (count image) 3)
         limx (- (count (first image)) 20)]
     (->> (for [y (range limy) x (range limx)] [y x])
-      (filter (fn [[y x]]
-                (every? (fn [[dy dx]]
-                          (= (get-in image [(+ y dy) (+ x dx)]) \#))
-                  monster)))
-      count)))
+         (filter (fn [[y x]]
+                   (every? (fn [[dy dx]]
+                             (= (get-in image [(+ y dy) (+ x dx)]) \#))
+                           monster)))
+         count)))
 
 (defn part-1 [tiles]
   (let [blueprint (assemble tiles)
@@ -116,7 +111,7 @@
   (let [blueprint (assemble tiles)
         image (draw tiles blueprint)
         monsters (apply max
-                   (map count-monsters (rotations-and-reflections image)))]
+                        (map count-monsters (rotations-and-reflections image)))]
     (- (count (filter #{\#} (flatten image))) (* monsters (count monster)))))
 
 (def sample
